@@ -1,16 +1,22 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect,url_for
+# from .fake_data import getAll,findProductById
+
 
 app = Flask(__name__)
 
 app.config.from_pyfile("../config.py")
 
-@app.route('/client/home')
-def home_client():
-    produits = [1,2,3,4]
-    return render_template('client/home.html',prods=produits)
+from .models import getAll 
+@app.route("/home")
+def home_c():
+    prods = getAll()
+    print(prods)
+    return render_template("client/home.html",products=prods)
 
-@app.route('/client/articles/<int:id_product>')
-def product(id_product):
-    if id_product == none:
-        return redirect(url_for("home_client"))
-    return render_template('client/product.html',prod = id_product)
+@app.route("/products/<int:id_product>")
+def detail_prod_c(id_product):
+    # prod = findProductById(id_product)
+    prod = None
+    if not prod:
+        return redirect(url_for("home_c"))
+    return render_template("client/product.html",product=prod)
